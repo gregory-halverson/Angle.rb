@@ -25,10 +25,12 @@ class Angle
 
   def from_degrees(degrees)
     @angle = Angle.degrees_to_radians(degrees)
+    self
   end
 
   def from_radians(radians)
     @angle = radians
+    self
   end
 
   # getters and setters
@@ -241,21 +243,15 @@ class Angle
   # inverse trig functions
 
   def self.asin(x)
-    angle = Angle.new
-    angle.from_radians(Math.asin(x))
-    angle
+    Angle.new.from_radians(Math.asin(x))
   end
 
   def self.acos(x)
-    angle = Angle.new
-    angle.from_radians(Math.acos(x))
-    angle
+    Angle.new.from_radians(Math.acos(x))
   end
 
   def self.atan(x)
-    angle = Angle.new
-    angle.from_radians(Math.atan(x))
-    angle
+    Angle.new.from_radians(Math.atan(x))
   end
 
   def self.asec(x)
