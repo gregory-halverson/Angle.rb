@@ -144,14 +144,15 @@ class Angle
     (sin == 0) ? 0 : sin
   end
 
+  alias sine sin
+  alias jiba sin
+
   def cos
     cos = Math.cos(self.radians).round(@@ROUND_TRIG)
     (cos == 0) ? 0 : cos
   end
 
-  def cosine
-    self.cos
-  end
+  alias cosine cos
 
   def tan
     return nil if self.radians == @@PI / 2
@@ -160,9 +161,7 @@ class Angle
     (tan == 0) ? 0 : tan
   end
 
-  def tangent
-    self.tan
-  end
+  alias tangent tan
 
   def csc
     return nil if self.radians == 0 or self.radians == @@PI
@@ -170,9 +169,7 @@ class Angle
     1 / self.sin
   end
 
-  def cosecant
-    self.csc
-  end
+  alias cosecant csc
 
   def sec
     return nil if self.radians == @@PI / 2
@@ -180,9 +177,7 @@ class Angle
     1 / self.cos
   end
 
-  def secant
-    self.sec
-  end
+  alias secant sec
 
   def cot
     return nil if self.radians == 0 or self.radians == @@PI
@@ -191,17 +186,13 @@ class Angle
     1 / self.tan
   end
 
-  def cotangent
-    self.cot
-  end
+  alias cotangent cot
 
   def crd
     2 * (self / 2).sin
   end
 
-  def chord
-    self.crd
-  end
+  alias chord crd
 
   def versin
     1 - self.cos
