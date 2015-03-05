@@ -1,12 +1,5 @@
 require_relative 'approx.rb'
 
-# convert float to whole and fraction
-def modf(number)
-  whole = Integer(number)
-  remainder = number - whole
-  return whole.abs, remainder
-end
-
 class Angle
   # constants
   @@PI = Math::PI
@@ -111,9 +104,9 @@ class Angle
   # convert degrees as float to degrees, minutes, seconds
   def self.degrees_to_sexagesimal(degrees)
     degrees = Angle.normalize_degrees(degrees.to_f)
-    degrees, remainder = modf degrees.to_f
+    degrees, remainder = degrees.to_f.modf
     remainder = remainder.round(9)
-    minutes, seconds = modf remainder * 60
+    minutes, seconds = (remainder * 60).modf
     seconds *= 60
     return degrees, minutes, seconds
   end
@@ -290,6 +283,38 @@ class Angle
     degrees(90) - atan(x)
   end
 
+  # trigonometric properties of angle
+
+  def acute?
+    self.degrees < 90
+  end
+
+  def right?
+    self.degrees == 90
+  end
+
+  def obtuse?
+    d = self.degress
+    d > 90 and d < 180
+  end
+
+  def straight?
+    self.degrees == 180
+  end
+
+  def reflex?
+    d = self.degrees
+    d > 180 and d < 360
+  end
+
+  def full?
+    self.degrees == 0
+  end
+
+  def oblique?
+    not [0, 90, 180, 270].include? self.degrees
+  end
+
   # output and type conversions
 
   def to_s_deg
@@ -308,7 +333,7 @@ class Angle
           output += "\'"
 
           if seconds > 0
-            seconds, remainder = modf(seconds)
+            seconds, remainder = seconds.modf
             remainder = remainder.round(@@SECONDS_DECIMAL_PLACES)
 
             if remainder >= 1
