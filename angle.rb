@@ -7,7 +7,7 @@ class Angle
   @@PI_SYMBOL = "\u03c0"
   @@DEGREE_SYMBOL = "\u00b0"
   @@SECONDS_DECIMAL_PLACES = 2
-  @@ROUND_TRIG
+  @@ROUND_TRIG = 12
 
   # initializers
 
