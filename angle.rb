@@ -18,7 +18,7 @@ class Angle
 
   # initializers
 
-  def initialize(angle, mode=:degrees, display=:readable)
+  def initialize(angle=0, mode=:degrees, display=:readable)
     @mode = mode
     @display = display
 
@@ -64,25 +64,37 @@ class Angle
     Angle.radians_to_degrees(self.radians).to_f
   end
 
+  def d
+    self.degrees.floor
+  end
+
   def minutes
     self.degrees * 60
+  end
+
+  def m
+    self.minutes.floor % 60
   end
 
   def seconds
     self.minutes * 60
   end
 
+  def s
+    self.seconds.floor % 60
+  end
+
   # normailize a value of degrees to [0, 360)
   def self.normalize_degrees(degrees)
     degrees -= 360 while degrees >= 360
-    degrees += 360 while degrees <= -360
+    degrees += 360 while degrees < 0
     degrees
   end
 
   # normalize a value of radians to [0, 2pi)
   def self.normalize_radians(radians)
     radians -= @@TWO_PI while radians >= @@TWO_PI
-    radians += @@TWO_PI while radians <= -@@TWO_PI
+    radians += @@TWO_PI while radians < 0
     radians
   end
 
@@ -242,6 +254,42 @@ class Angle
     self.csc - 1
   end
 
+  # inverse trig functions
+
+  def self.asin(x)
+    angle = Angle.new
+    angle.from_radians(Math.asin(x))
+    angle
+  end
+
+  def self.acos(x)
+    angle = Angle.new
+    angle.from_radians(Math.acos(x))
+    angle
+  end
+
+  def self.atan(x)
+    angle = Angle.new
+    angle.from_radians(Math.atan(x))
+    angle
+  end
+
+  def self.asec(x)
+    return nil if x == 0
+
+    acos(1 / x)
+  end
+
+  def self.acsc(x)
+    return nil if x == 0
+
+    asin(1 / x)
+  end
+
+  def self.acot(x)
+    degrees(90) - atan(x)
+  end
+
   # output and type conversions
 
   def to_s_deg
@@ -389,8 +437,3 @@ end
 def radians(radians)
   Angle.new radians, mode=:radians
 end
-
-a = sexagesimal(0, 1, 0)
-puts a
-puts a.degrees
-puts a.degrees.to_r
