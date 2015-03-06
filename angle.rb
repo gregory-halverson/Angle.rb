@@ -24,12 +24,12 @@ class Angle
   end
 
   def from_degrees(degrees)
-    @angle = Angle.degrees_to_radians(degrees)
+    @angle = Angle.normalize_radians(Angle.degrees_to_radians(degrees))
     self
   end
 
   def from_radians(radians)
-    @angle = radians
+    @angle = Angle.normalize_radians(radians)
     self
   end
 
@@ -157,13 +157,14 @@ class Angle
   alias cosine cos
 
   def tan
-    return nil if self.radians == @@PI / 2
+    return nil if self.radians == @@PI / 2 or self.radians == 3 * @@PI / 2
 
     tan = Math.tan(self.radians).round(@@ROUND_TRIG)
     (tan == 0) ? 0 : tan
   end
 
   alias tangent tan
+  alias slope tan
 
   def csc
     return nil if self.radians == 0 or self.radians == @@PI
@@ -268,6 +269,10 @@ class Angle
 
   def self.acot(x)
     degrees(90) - atan(x)
+  end
+
+  def self.atan2(y, x)
+    Angle.new.from_radians(Math.atan2(y, x))
   end
 
   # trigonometric properties of angle
